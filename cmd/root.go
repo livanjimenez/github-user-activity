@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/livanjimenez/github-user-activity/internal/actions"
 	"github.com/spf13/cobra"
 )
 
@@ -14,18 +15,13 @@ func RootCmd() {
 				return
 			}
 			username := args[0]
-			activity, err := FetchActivity(username)
+			activity, err := actions.FetchGithubActivity(username)
 			if err != nil {
 				cmd.Println("Error fetching activity: ", err)
 				return
 			}
-			cmd.Println(activity)
+			actions.DisplayFormattedActivity(activity)
 		},
 	}
 	c.Execute()
-}
-
-func FetchActivity(username string) (string, error) {
-	newMessage := "Fetching activity for " + username
-	return newMessage, nil
 }
